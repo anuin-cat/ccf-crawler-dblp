@@ -28,6 +28,21 @@ playwright install chromium
 # 复制 .env.local.example 为 .env.local，并填入代理 API 配置
 ```
 
+### 代理配置
+
+本项目使用**神龙代理**（api.shenlongip.com）作为代理服务。如需使用代理功能，请：
+
+1. 访问 [神龙代理官网](http://www.shenlongip.com/) 注册账号并购买代理服务
+2. 在控制台获取 `API Key` 和 `API Sign`
+3. 创建 `.env.local` 文件，配置以下环境变量：
+
+```bash
+PROXY_API_KEY=你的API_Key
+PROXY_API_SIGN=你的API_Sign
+```
+
+**注意**：如果不配置代理，程序会自动降级使用本机地址进行请求，但可能受到访问频率限制。
+
 ## 使用方法
 
 ### 基本使用
@@ -64,3 +79,9 @@ python main.py -ccf a -c conf -m 20 -p 10
     ├── venue.py            # CCF 会议/期刊配置
     └── special_rules.py    # 特殊规则配置
 ```
+
+## 声明
+
+本项目仅用于学习和研究目的。本项目不存储任何论文的完整内容，仅获取公开的元信息和摘要信息。
+
+如本项目涉及任何侵权行为，请及时通知，我们将立即删除相关内容。
