@@ -9,7 +9,9 @@ import logging
 import time
 import asyncio
 
-from crawler.fetch_abstract import main_papers_meta, info_by_dir, main_papers_abstract
+from crawler.fetch_meta import main_papers_meta
+from crawler.fetch_abstract import main_papers_abstract
+from utils import info_by_dir
 
 if __name__ == "__main__":
     classification = 'conf'
@@ -40,18 +42,11 @@ if __name__ == "__main__":
     logging.info("=" * 60)
     
     # 3. 获取论文元信息
-    logging.info("\n📊 步骤 1/2: 获取论文元信息...")
-    main_papers_meta(data_dir, ccf=ccf, classification=classification)
-    info_by_dir(data_dir)
+    # logging.info("\n📊 步骤 1/2: 获取论文元信息...")
+    # main_papers_meta(data_dir, ccf=ccf, classification=classification)
+    # info_by_dir(data_dir)
 
     # 4. 获取论文摘要（异步版本 - 推荐）
     logging.info("\n📄 步骤 2/2: 获取论文摘要...")
     asyncio.run(main_papers_abstract(data_dir, max_concurrent=20, proxy_pool_size=10))
     info_by_dir(data_dir)
-
-    # ================================== 测试 ==================================
-    
-    # 6. 测试异步摘要获取器
-    # asyncio.run(test_doi_abstract_fetcher())
-    # asyncio.run(test_urls_abstract_fetcher())
-    # asyncio.run(test_url_abstract_fetcher())

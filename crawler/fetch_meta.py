@@ -35,7 +35,7 @@ sys.path.append(ROOT_DIR)
 
 # 导入CCF A类会议规则
 from config.special_rules import get_special_rules
-from config.venue import get_venue_name
+from config.venue import get_venue_name, get_all_venue_by_rule
 
 class DBLPMetaFetcher:
     """DBLP论文获取器"""
@@ -334,3 +334,25 @@ class DBLPMetaFetcher:
         return self.save_papers_to_json(papers, venue_name, year, type_counts, venue_counts,
                                        type_counts_before, venue_counts_before, total_papers_before)
 
+def main_papers_meta(data_dir: str, ccf: Literal['a', 'b', 'c'], classification: Literal['conf', 'journal']):
+    # 配置需要处理的会议
+    venues = get_all_venue_by_rule(ccf, classification)
+    SKIP_CONFS = [
+        'sc', # 搜索结果过多
+        'fse_esec', # 合并拆分内容过多，不统一
+        'pldi', # 混到了其他期刊中
+        'popl', # 和 pldi 混合了
+        'ooplsa', # 检索为空
+        'vr', # x 检索即失败
+        'vis', # x 数量对不上，应该 120 结果 53 篇 （正文发表在 TVCG 期刊的卷中）
+        'cscw', # 搜索数量极少，不对劲，正常接收了 2235 篇
+        'ubicomp', # 搜索数量极少，不对劲，正常接收了 764 篇
+    ]
+
+    # 3. 开始获取
+    fetcher = DBLPMetaFetcher(data_dir=data_dir)
+    years = [i for i in range(2015, 2027)]
+    for venue in venues:
+        for year in years:
+            if venue in SKIP_CONFS: continue
+            filepath = fetcher.get_papers_by_venue_and_year(venue, year)
