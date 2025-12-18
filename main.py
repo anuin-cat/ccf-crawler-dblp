@@ -17,10 +17,10 @@ from utils import info_by_dir
 if __name__ == "__main__":
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='CCF DBLP 爬虫程序')
-    parser.add_argument('--classification', type=str, default='conf', help='论文分类类型 (默认: conf)')
-    parser.add_argument('--ccf', type=str, default='b', help='CCF 等级 (默认: b)')
-    parser.add_argument('--max-concurrent', type=int, default=20, help='最大并发数 (默认: 20)')
-    parser.add_argument('--proxy-pool-size', type=int, default=10, help='代理池大小 (默认: 10)')
+    parser.add_argument('-ccf', type=str, default='b', help='CCF 等级 (默认: b)')
+    parser.add_argument('-c', '--classification', type=str, default='conf', help='论文分类类型, 可选值: conf, journal')
+    parser.add_argument('-m', '--max-concurrent', type=int, default=20, help='最大并发数 (默认: 20)')
+    parser.add_argument('-p', '--proxy-pool-size', type=int, default=10, help='代理池大小 (默认: 10)')
     
     args = parser.parse_args()
     
